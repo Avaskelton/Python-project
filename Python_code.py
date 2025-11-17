@@ -2,7 +2,7 @@
 # os.getcwd()
 
 
-
+# import tkinter as tk
 import pandas as pd
 
 # importing data 
@@ -30,5 +30,11 @@ for i, col1 in enumerate(corr.columns):
         else:
             print(f'{col1} and {col2}: WEAK correlation ({value: .2f})')
         
-
+# root = tk.Tk()
+# root.title("Tk Example")
+# root.configure(background="yellow")
+# root.minsize(200,200)
+# root.maxsize(500,500)
+# root.geometry("300x300+50+50")
+# root.mainloop()
  
