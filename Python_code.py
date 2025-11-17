@@ -24,4 +24,12 @@ for col1 in corr.columns:
             print(f'{col1} and {col2}: WEAK correlation ({value: .2f})')
         
 
- 
+
+ #for the heat graph
+
+#Seaborn code
+import seaborn as sns
+fig = plt.figure(figsize=(12,12))
+r = sns.heatmap(flight_matrox, cmap='BuPu')
+r.set_titles("Coorelation of YRBSS Data 2023")
+
