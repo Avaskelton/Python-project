@@ -1,8 +1,13 @@
 # import os
 # os.getcwd()
 
+<<<<<<< HEAD
 
 # import tkinter as tk
+=======
+#If you type a line of code update the repo
+
+>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
 import pandas as pd
 
 # importing data 
@@ -30,6 +35,7 @@ for i, col1 in enumerate(corr.columns):
         else:
             print(f'{col1} and {col2}: WEAK correlation ({value: .2f})')
         
+<<<<<<< HEAD
 # root = tk.Tk()
 # root.title("Tk Example")
 # root.configure(background="yellow")
@@ -38,3 +44,15 @@ for i, col1 in enumerate(corr.columns):
 # root.geometry("300x300+50+50")
 # root.mainloop()
  
+=======
+
+
+ #for the heat graph
+
+#Seaborn code
+import seaborn as sns
+fig = plt.figure(figsize=(12,12))
+r = sns.heatmap(flight_matrox, cmap='BuPu')
+r.set_titles("Coorelation of YRBSS Data 2023")
+
+>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
