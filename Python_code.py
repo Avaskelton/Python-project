@@ -1,15 +1,15 @@
 # import os
 # os.getcwd()
 
-<<<<<<< HEAD
+#<<<<<<< HEAD 
 
 # import tkinter as tk
-=======
+#=======
 #If you type a line of code update the repo
 
->>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
+#>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
 import pandas as pd
-
+import tkinter as tk
 # importing data 
 df = pd.read_csv('Yssrb_data_new.txt', delimiter=',', header = 0)
 df.head()
@@ -35,24 +35,26 @@ for i, col1 in enumerate(corr.columns):
         else:
             print(f'{col1} and {col2}: WEAK correlation ({value: .2f})')
         
-<<<<<<< HEAD
-# root = tk.Tk()
-# root.title("Tk Example")
-# root.configure(background="yellow")
-# root.minsize(200,200)
-# root.maxsize(500,500)
-# root.geometry("300x300+50+50")
-# root.mainloop()
+#<<<<<<< HEAD
+
+
+root = tk.Tk()
+root.title("Tk Example")
+root.configure(background="yellow")
+root.minsize(200,200)
+root.maxsize(500,500)
+root.geometry("300x300+50+50")
+root.mainloop()
  
-=======
+#=======
 
 
  #for the heat graph
 
 #Seaborn code
-import seaborn as sns
-fig = plt.figure(figsize=(12,12))
-r = sns.heatmap(flight_matrox, cmap='BuPu')
-r.set_titles("Coorelation of YRBSS Data 2023")
+# import seaborn as sns
+# fig = plt.figure(figsize=(12,12))
+# r = sns.heatmap(flight_matrox, cmap='BuPu')
+# r.set_titles("Coorelation of YRBSS Data 2023")
 
->>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
+#>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
