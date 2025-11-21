@@ -10,6 +10,9 @@
 #>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
 import pandas as pd
 import tkinter as tk
+import matplotlib.pyplot as plt
+import numpy as np
+
 # importing data 
 df = pd.read_csv('Yssrb_data_new.txt', delimiter=',', header = 0)
 df.head()
@@ -52,9 +55,14 @@ root.mainloop()
  #for the heat graph
 
 #Seaborn code
-# import seaborn as sns
-# fig = plt.figure(figsize=(12,12))
-# r = sns.heatmap(flight_matrox, cmap='BuPu')
-# r.set_titles("Coorelation of YRBSS Data 2023")
+# Create a random 10x10 matrix
+data = np.random.rand(10, 10)
 
-#>>>>>>> a7ae807dbd510c171b3dfe0ea6e8df3467b08479
+# Create the heatmap
+plt.figure(figsize=(8, 6))
+plt.imshow(data, cmap="viridis", interpolation="nearest")
+plt.colorbar(label="Intensity")
+plt.title("Heatmap Example")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.show()
