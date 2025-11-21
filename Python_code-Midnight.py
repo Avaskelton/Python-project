@@ -4,9 +4,12 @@
 #If you type a line of code update the repo
 
 import pandas as pd
+import seaborn as sns
+import numpy as np 
+import matplotlib.pyplot as plt
 
 # importing data 
-df = pd.read_csv('Yssrb_data_new.txt', delimiter=',', header = 0)
+df = pd.read_csv('Data', delimiter=',', header = 0)
 df.head()
 # converting any string types into numeric values
 df = df.apply(pd.to_numeric, errors='coerce')
@@ -34,8 +37,13 @@ for i, col1 in enumerate(corr.columns):
 
  #for the heat graph
 
-#Seaborn code
-import seaborn as sns
+#Loading in our data set
+yssrb_data= pd.read_csv('')
+#Question Number that we add
+yssrb_data("Question Number")=
+
+
+#Creating the heat map image 
 fig = plt.figure(figsize=(12,12))
 r = sns.heatmap(flight_matrox, cmap='BuPu')
 r.set_titles("Coorelation of YRBSS Data 2023")
