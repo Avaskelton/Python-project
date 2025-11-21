@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # importing data 
-df = pd.read_csv('Yssrb_data_new.txt', delimiter=',', header = 0)
+df = pd.read_csv('Data', delimiter=',', header = 0)
 df.head()
 # converting any string types into numeric values
 df = df.apply(pd.to_numeric, errors='coerce')
