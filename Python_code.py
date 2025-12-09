@@ -1,75 +1,190 @@
-#import os
-#os.chdir(r"C:\Users\willi\OneDrive\Desktop\porject repo\Python-project")
-#os.getcwd()
-
-#If you type a line of code update the repo
-
 import pandas as pd
-import seaborn as sns
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import tkinter as tk
 from tkinter import messagebox
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
- #delimiter=',', header = 0
-# importing data 
-df = pd.read_excel('Data.xlsx')
-df = df.apply(pd.to_numeric, errors='coerce')
+# Load data
+df = pd.read_excel("Data.xlsx")
+df = df.apply(pd.to_numeric, errors="coerce")
 
-# converting any string types into numeric values
-corr = df.corr()
-print(corr)
-
-def calculate_correlation():
-    selected_indices = listbox.curselection()
-    if not selected_indices:
-        messagebox.showwarning("no selection, please select at least one question.")
-        return
-    selected_questions = [listbox.get(i) for i in selected_indices]
-    subset = df[selected_questions]
-    corr = subset.corr 
-    
-    # clear previous results
-    text_box.delete("1.0", tk.END)
-    
-# looping throrugh every pair of columns to check if they correlate
-for i, col1 in enumerate(corr.columns):
-    for j, col2 in enumerate(corr.columns):
-        if j <= i:
-            continue # skips self  correlations
-        value = corr.iloc[i, j]
-        # Organizing correlations
-        if abs(value) > 0.8:
-            print(f'{col1} and {col2}: VERY STRONG correlation ({value: .2f})')
-        elif abs(value) > 0.5:
-           print(f'{col1} and {col2}: STRONG correlation ({value: .2f})') 
-        elif abs(value) > 0.3:
-            print(f'{col1} and {col2}: MODERATE correlation ({value: .2f})')
-        else:
-            print(f'{col1} and {col2}: WEAK correlation ({value: .2f})')
-        
-#Creating the heat map image 
-plt.figure(figsize=(12, 12))
-sns.heatmap(corr, annot=True, fmt=".2f", cmap='BuPu', square=True)
-plt.title("Correlation of Survey Questions")
-plt.show()
-
-# GUI setup
+# Main GUI window
 root = tk.Tk()
 root.title("Survey Correlation Analyzer")
 
-tk.Label(root, text="Select questions to analyze:").pack()
+# Global placeholder for canvas so we can destroy old graphs
+canvas_widget = None
+
+
+# scatter plot function
+def calculate_correlation():
+    global canvas_widget
+
+    selected_indices = listbox.curselection()
+
+    # Must pick exactly TWO questions
+    if len(selected_indices) != 2:
+        messagebox.showwarning("Selection Error", 
+                               "Please select exactly TWO questions to generate a scatterplot.")
+        return
+
+    q1 = listbox.get(selected_indices[0])
+    q2 = listbox.get(selected_indices[1])
+
+    subset = df[[q1, q2]].dropna()
+    corr_value = subset[q1].corr(subset[q2])
+
+    text_box.delete("1.0", tk.END)
+    text_box.insert(tk.END, f"Correlation between {q1} and {q2}: {corr_value:.3f}\n")
+
+    # Create scatterplot
+    fig, ax = plt.subplots(figsize=(5, 4))
+    sns.regplot(data=subset, x=q1, y=q2, ax=ax, ci=None)
+    ax.set_title(f"{q1} vs {q2}\nCorrelation = {corr_value:.3f}")
+    ax.set_xlabel(q1)
+    ax.set_ylabel(q2)
+
+    # Destroy previous plot
+    if canvas_widget is not None:
+        canvas_widget.get_tk_widget().destroy()
+
+    # Embed new plot
+    canvas_widget = FigureCanvasTkAgg(fig, master=root)
+    canvas_widget.draw()
+    canvas_widget.get_tk_widget().pack(pady=10)
+
+
+# Full coreleation matrix
+def show_full_correlation():
+    global canvas_widget
+
+    corr_matrix = df.corr()
+
+    # Create heatmap
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+    ax.set_title("Correlation Matrix for All Questions")
+
+    # Destroy old plot
+    if canvas_widget is not None:
+        canvas_widget.get_tk_widget().destroy()
+
+    # Embed heatmap
+    canvas_widget = FigureCanvasTkAgg(fig, master=root)
+    canvas_widget.draw()
+    canvas_widget.get_tk_widget().pack(pady=10)
+
+
+# GUI Layout 
+tk.Label(root, text="Select ANY TWO questions to compare:").pack()
 
 listbox = tk.Listbox(root, selectmode="multiple", width=50)
 for col in df.columns:
     listbox.insert(tk.END, col)
 listbox.pack()
 
-tk.Button(root, text="Calculate Correlations", command=calculate_correlation).pack(pady=10)
+# button to create scatter plot
+tk.Button(root, text="Generate Scatterplot", command=calculate_correlation).pack(pady=5)
 
-text_box = tk.Text(root, height=15, width=70)
+# button for full corelation
+tk.Button(root, text="Show Full Correlation Matrix", command=show_full_correlation).pack(pady=5)
+
+text_box = tk.Text(root, height=6, width=60)
 text_box.pack()
 
 root.mainloop()
 
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import tkinter as tk
+# from tkinter import messagebox
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+# # Load data
+# df = pd.read_excel("Data.xlsx")
+# df = df.apply(pd.to_numeric, errors="coerce")
+
+# root = tk.Tk()
+# root.title("Survey Correlation Analyzer")
+
+# canvas_widget = None
+
+
+# # Scatter plot function
+# def calculate_correlation():
+#     global canvas_widget
+
+#     selected_indices = listbox.curselection()
+
+#     if len(selected_indices) != 2:
+#         messagebox.showwarning("Selection Error", 
+#                                "Please select exactly TWO questions to generate a scatterplot.")
+#         return
+
+#     q1 = listbox.get(selected_indices[0])
+#     q2 = listbox.get(selected_indices[1])
+
+#     subset = df[[q1, q2]].dropna()
+#     corr_value = subset[q1].corr(subset[q2])
+
+#     text_box.delete("1.0", tk.END)
+#     text_box.insert(tk.END, f"Correlation between {q1} and {q2}: {corr_value:.3f}\n")
+
+#     fig, ax = plt.subplots(figsize=(5, 4))
+#     sns.regplot(data=subset, x=q1, y=q2, ax=ax, ci=None)
+#     ax.set_title(f"{q1} vs {q2}\nCorrelation = {corr_value:.3f}")
+#     ax.set_xlabel(q1)
+#     ax.set_ylabel(q2)
+
+#     if canvas_widget is not None:
+#         canvas_widget.get_tk_widget().destroy()
+
+#     canvas_widget = FigureCanvasTkAgg(fig, master=root)
+#     canvas_widget.draw()
+#     canvas_widget.get_tk_widget().pack(pady=10)
+
+
+# # Ranked correlation setup
+# def show_ranked_correlations():
+#     text_box.delete("1.0", tk.END)
+
+#     corr = df.corr()
+#     pairs = []
+
+#     cols = corr.columns
+#     for i in range(len(cols)):
+#         for j in range(i + 1, len(cols)):
+#             c = corr.iloc[i, j]
+#             pairs.append((cols[i], cols[j], c))
+
+#     # Sort by absolute correlation strength
+#     pairs = sorted(pairs, key=lambda x: abs(x[2]), reverse=True)
+
+#     text_box.insert(tk.END, "Top Correlations (Strongest → Weakest):\n\n")
+
+#     for q1, q2, val in pairs:
+#         text_box.insert(tk.END, f"{q1}  vs  {q2}:   {val:.3f}\n")
+
+#     text_box.insert(tk.END, "\nEnd of List.")
+
+
+# # GUI layout
+# tk.Label(root, text="Select ANY TWO questions to compare:").pack()
+
+# listbox = tk.Listbox(root, selectmode="multiple", width=50)
+# for col in df.columns:
+#     listbox.insert(tk.END, col)
+# listbox.pack()
+
+# tk.Button(root, text="Generate Scatterplot", command=calculate_correlation).pack(pady=5)
+
+# tk.Button(root, text="Show All Correlations Ranked", command=show_ranked_correlations).pack(pady=5)
+
+# text_box = tk.Text(root, height=15, width=70)
+# text_box.pack()
+
+# root.mainloop()
