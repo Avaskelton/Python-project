@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec  5 12:45:43 2025
+Created on Tue Dec  9 16:41:00 2025
 
 @author: avask
 """
@@ -33,7 +33,7 @@ def calculate_correlation():
 
     # Must pick exactly TWO questions
     if len(selected_indices) != 2:
-        messagebox.showwarning("Selection Error",
+        messagebox.showwarning("Selection Error", 
                                "Please select exactly TWO questions to generate a scatterplot.")
         return
 
@@ -84,7 +84,7 @@ def show_full_correlation():
     canvas_widget.get_tk_widget().pack(pady=10)
 
 
-# GUI Layout
+# GUI Layout 
 tk.Label(root, text="Select ANY TWO questions to compare:").pack()
 
 listbox = tk.Listbox(root, selectmode="multiple", width=50)
